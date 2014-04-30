@@ -37,3 +37,25 @@ template '/etc/mavenrc' do
   source 'mavenrc.erb'
   mode   '0755'
 end
+
+if node['maven']['user_settings']
+  node['maven']['user_settings'].each do |user|
+    user_group_id = node['etc']['passwd'][user]['gid']
+    user_home = node['etc']['passwd'][user]['dir']
+    user_m2_home = "#{user_home}/.m2/"
+
+    directory user_m2_home do
+      owner user
+      group user_group_id
+      action :create
+    end
+
+    template "#{user_m2_home}settings.xml" do
+      source "settings.xml.erb"
+      mode 0644
+      owner user
+      group user_group_id
+    end
+
+  end
+end

@@ -1,0 +1,93 @@
+<settings>
+
+<%- if node['maven']['settings']['servers'] -%>
+  <servers>
+  <%- node['maven']['settings']['servers'].each do |server| -%>
+    <server>
+      <id><%= server['id'] %></id>
+      <username><%= server['username'] %></username>
+      <password><%= server['password'] %></password>
+    </server>
+  <%- end -%>
+  </servers>
+<%- end -%>
+
+<%- if node['maven']['settings']['mirrors'] -%>
+  <mirrors>
+  <%- node['maven']['settings']['mirrors'].each do |mirror| -%>
+    <mirror>
+      <id><%= mirror['id'] %></id>
+      <mirrorOr><%= mirror['mirrorOf'] %></mirrorOr>
+      <url><%= mirror['url'] %></url>
+    </mirror>
+  <%- end -%>
+  </mirrors>
+<%- end -%>
+
+<%- if node['maven']['settings']['profiles'] -%>
+  <profiles>
+    <%- node['maven']['settings']['profiles'].each do |profile| -%>
+    <profile>
+      <id><%= profile['id'] %></id>
+      <%- if profile['repositories'] -%>
+      <repositories>
+        <%- profile['repositories'].each do |repository| -%>
+        <repository>
+          <id><%= repository['id'] %></id>
+          <url><%= repository['url'] %></url>
+          <%- if repository['releases'] -%>
+          <releases>
+            <%- repository['releases'].each do |element,value| -%>
+            <<%= element %>><%= value %></<%= element %>>
+            <%- end -%>
+          </releases>
+          <%- end -%>
+          <%- if repository['snapshots'] -%>
+          <snapshots>
+            <%- repository['snapshots'].each do |element,value| -%>
+            <<%= element %>><%= value %></<%= element %>>
+            <%- end -%>
+          </snapshots>
+          <%- end -%>
+        </repository>
+        <%- end -%>
+      </repositories>
+      <%- end -%>
+      <%- if profile['pluginRepositories'] -%>
+      <pluginRepositories>
+        <%- profile['pluginRepositories'].each do |pluginRepository| -%>
+        <pluginRepository>
+          <id><%= pluginRepository['id'] %></id>
+          <url><%= pluginRepository['url'] %></url>
+          <%- if pluginRepository['releases'] -%>
+          <releases>
+            <%- pluginRepository['releases'].each do |element,value| -%>
+            <<%= element %>><%= value %></<%= element %>>
+            <%- end -%>
+          </releases>
+          <%- end -%>
+          <%- if pluginRepository['snapshots'] -%>
+          <snapshots>
+            <%- pluginRepository['snapshots'].each do |element,value| -%>
+            <<%= element %>><%= value %></<%= element %>>
+            <%- end -%>
+          </snapshots>
+          <%- end -%>
+        </pluginRepository>
+        <%- end -%>
+      </pluginRepositories>
+      <%- end -%>
+    </profile>
+    <%- end -%>
+  <profiles>
+<%- end -%>
+
+<%- if node['maven']['settings']['activeProfiles'] -%>
+  <activeProfiles>
+    <%- node['maven']['settings']['activeProfiles'].each do |activeProfile| -%>
+    <activeProfile><%= activeProfile %></activeProfile>
+    <%- end -%>
+  </activeProfiles>
+<%- end -%>
+
+</settings>

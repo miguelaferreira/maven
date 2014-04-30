@@ -34,3 +34,18 @@ default['maven']['3']['checksum'] = '077ed466455991d5abb4748a1d022e2d2a54dc4d557
 default['maven']['3']['plugin_version'] = '2.4'
 default['maven']['repositories'] = ['http://repo1.maven.apache.org/maven2']
 default['maven']['setup_bin'] = false
+
+default['maven']['user_settings'] = ["root"]
+default['maven']['settings']['servers'] = [{"id" => "snapshot", "username" => "username", "password" => "password"},
+                                           {"id" => "release", "username" => "username", "password" => "password"}]
+default['maven']['settings']['mirrors'] = [{"id" => "nexus", "mirrorOf" => "*", "url" => "http://nexus:8080/content/groups/public"}]
+default['maven']['settings']['profiles'] = [{"id" => "nexus", 
+                                             "repositories" => [{"id" => "central", 
+                                                                 "url" => "http://central", 
+                                                                 "releases" => {"enabled" => "true"}, 
+                                                                 "snapshots" => {"enabled" => "true"}}], 
+                                             "pluginRepositories" => [{"id" => "central", 
+                                                                       "url" => "http://central", 
+                                                                       "releases" => {"enabled" => "true"}, 
+                                                                       "snapshots" => {"enabled" => "true"}}]}]
+default['maven']['settings']['activeProfiles'] = ["nexus"]
